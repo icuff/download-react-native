@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Button, StyleSheet, Text, View, ToastAndroid, PermissionsAndroid } from 'react-native';
 import * as RNFS from 'react-native-fs';
+import moment from 'moment';
 
 export default class App extends Component {
   state = {
@@ -25,6 +26,7 @@ export default class App extends Component {
   }
 
   makeDownload = async () => {
+    const timerBegin = moment().valueOf();
     this.requestPermission();
     downloadDir = RNFS.ExternalStorageDirectoryPath + '/Download/';
     url = 'https://devdactic.com/html/5-simple-hacks-LBT.pdf';
@@ -39,6 +41,8 @@ export default class App extends Component {
         showDownloadBtn: false,
         showText: true
       });
+      const timerEnd = moment().valueOf();
+      ToastAndroid.show('Finished in ' + (timerEnd - timerBegin) + 'ms', ToastAndroid.LONG);
     }).catch(err => {
       ToastAndroid.show(err.message + ' - ' + err.code, ToastAndroid.SHORT);
     });
